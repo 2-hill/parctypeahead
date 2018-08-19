@@ -6,6 +6,13 @@ html {
   font-size: 20px;
   font-weight: 200;
 }
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
 .moto {
 height: 30px;
 width: 50%;
@@ -96,4 +103,13 @@ a {
   color: black;
   background: rgba(0, 0, 0, 0.1);
   text-decoration: none;
+}
+
+
+
+/* Map */
+
+#map {
+  align-self: center;
+  border-radius: 20px;
 }

@@ -8,15 +8,13 @@ fetch(query)
 
 function findMatches(wordToMatch, parc) {
     return parc.filter(place => {
-      console.log(place.ville);
+     // console.log(place.ville);
         const regex = new RegExp(wordToMatch, 'gi');
         return place.ville.match(regex) || place.raisonsociale.match(regex) || place.codepostal.match(regex)
     });
 }
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
 function displayMatches() {
+
     const matchArray = findMatches(this.value, parc);
     const html = matchArray.map(place => {
         const regex = new RegExp(this.value, 'gi');
@@ -25,7 +23,7 @@ function displayMatches() {
         return `
         <li>
          <span class="name">${cityName}, ${parcName}</span>
-         <span class="zipcode">${numberWithCommas(place.codepostal)}</span>
+         <span class="zipcode">${place.codepostal}</span>
         </li>`;
     }).join('');
     suggestions.innerHTML = html;
@@ -34,3 +32,15 @@ const searchInput = document.querySelector('.search');
 const suggestions = document.querySelector('.suggestions');
 searchInput.addEventListener('change', displayMatches);
 searchInput.addEventListener('keyup', displayMatches);
+
+
+/* MapBox */
+
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiMmhpbGwiLCJhIjoiY2psMTBndnMzMWFvdjNwbXAwcXhwYmRmOCJ9.QX7gxoc4nfQgU-sjBm1Zow';
+let map = new mapboxgl.Map({
+    container: 'map', // container id
+    style: 'mapbox://styles/mapbox/streets-v8', // stylesheet location
+    center: [5.44, 43.52], // starting position [lng, lat]
+    zoom: 8 // starting zoom
+});
