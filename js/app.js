@@ -1,5 +1,5 @@
 
-const query = "https://gist.githubusercontent.com/2hill/067958e529edd64926dd981b0a26aeb8/raw/0c62f691d8f805badaa322d60f7866b0f927bb6d/parc.json";
+const query = "https://gist.githubusercontent.com/2-hill/067958e529edd64926dd981b0a26aeb8/raw/0c62f691d8f805badaa322d60f7866b0f927bb6d/parc.json";
 
 const parc = [];
 fetch(query)
