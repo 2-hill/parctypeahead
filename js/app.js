@@ -76,9 +76,9 @@ map.on('load', function () {
                 "step",
                 ["get", "point_count"],
                 "#51bbd6",
-                100,
+                10,
                 "#f1f075",
-                750,
+                15,
                 "#f28cb1"
             ],
             "circle-radius": [
@@ -150,12 +150,8 @@ map.on('load', function () {
 // location of the feature, with description HTML from its properties.
 map.on('click', 'unclustered-point', function (e) {
     let coordinates = e.features[0].geometry.coordinates.slice();
-    let description = () => {
-        return `<div>
-                    <span class="name">Ville:</span> <br>
-                    <span class="raison">Nom:</span>
-                <div>`
-    }; 
+    let description = e.features[0].properties.raisonsociale;
+    console.log(description);
     // Ensure that if the map is zoomed out such that multiple
     // copies of the feature are visible, the popup appears
     // over the copy being pointed to.
@@ -165,7 +161,7 @@ map.on('click', 'unclustered-point', function (e) {
 
     new mapboxgl.Popup()
         .setLngLat(coordinates)
-        .setHTML(description())
+        .setHTML(description)
         .addTo(map);
 });
 
