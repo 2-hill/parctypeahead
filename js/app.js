@@ -150,8 +150,17 @@ map.on('load', function () {
 // location of the feature, with description HTML from its properties.
 map.on('click', 'unclustered-point', function (e) {
     let coordinates = e.features[0].geometry.coordinates.slice();
-    let description = e.features[0].properties.raisonsociale;
-    console.log(description);
+    let parcName = e.features[0].properties.raisonsociale;
+    let parcVille = e.features[0].properties.ville;
+    
+    function parcInfo() {
+        return(
+        `     
+        <span> Ville: ${parcVille}</span><br>
+        <span> Nom: ${parcName}</span>
+        `
+        )
+    }
     // Ensure that if the map is zoomed out such that multiple
     // copies of the feature are visible, the popup appears
     // over the copy being pointed to.
@@ -161,7 +170,7 @@ map.on('click', 'unclustered-point', function (e) {
 
     new mapboxgl.Popup()
         .setLngLat(coordinates)
-        .setHTML(description)
+        .setHTML(parcInfo())
         .addTo(map);
 });
 
