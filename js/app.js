@@ -13,6 +13,7 @@ function findMatches(wordToMatch, parc) {
         return place.ville.match(regex) || place.raisonsociale.match(regex) || place.codepostal.match(regex)
     });
 }
+
 function displayMatches() {
 
     const matchArray = findMatches(this.value, parc);
@@ -22,7 +23,7 @@ function displayMatches() {
         const parcName = place.raisonsociale.replace(regex, `<span class="hl">${this.value}</span>`);
         return `
         <li>
-         <span class="name">${cityName}, ${parcName}</span>
+         <span class="name" onclick=${this.onListclick}>${cityName}, ${parcName}</span>
          <span class="zipcode">${place.codepostal}</span>
         </li>`;
     }).join('');
@@ -33,11 +34,10 @@ const suggestions = document.querySelector('.suggestions');
 searchInput.addEventListener('change', displayMatches);
 searchInput.addEventListener('keyup', displayMatches);
 
-
 /* MapBox */
 
 /* base map */
-mapboxgl.accessToken = 'pk.eyJ1IjoiMmhpbGwiLCJhIjoiY2psMTBndnMzMWFvdjNwbXAwcXhwYmRmOCJ9.QX7gxoc4nfQgU-sjBm1Zow';
+mapboxgl.accessToken = 'pk.eyJ1IjoiMmhpbGwiLCJhIjoiY2pzajVocHR2MGFraTQ5b25oaDE2OGwxMSJ9.mkJyY9GzHVPygKDvye-DdQ';
 let map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/mapbox/streets-v8', // stylesheet location
@@ -60,6 +60,7 @@ map.on('load', function () {
         clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
     });
 
+    //cercle
     map.addLayer({
         id: "clusters",
         type: "circle",
@@ -104,6 +105,7 @@ map.on('load', function () {
         }
     });
 
+
     map.addLayer({
         id: "unclustered-point",
         type: "circle",
@@ -146,10 +148,14 @@ map.on('load', function () {
 
 // When a click event occurs on a feature in the places layer, open a popup at the
 // location of the feature, with description HTML from its properties.
-map.on('click', 'places', function (e) {
-    var coordinates = e.features[0].geometry.coordinates.slice();
-    var description = e.features[0].properties.description;
-
+map.on('click', 'unclustered-point', function (e) {
+    let coordinates = e.features[0].geometry.coordinates.slice();
+    let description = () => {
+        return `<div>
+                    <span class="name">Ville:</span> <br>
+                    <span class="raison">Nom:</span>
+                <div>`
+    }; 
     // Ensure that if the map is zoomed out such that multiple
     // copies of the feature are visible, the popup appears
     // over the copy being pointed to.
@@ -159,7 +165,7 @@ map.on('click', 'places', function (e) {
 
     new mapboxgl.Popup()
         .setLngLat(coordinates)
-        .setHTML(description)
+        .setHTML(description())
         .addTo(map);
 });
 
