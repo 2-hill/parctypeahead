@@ -17,20 +17,31 @@ function findMatches(wordToMatch, parc) {
 function displayMatches() {
 
     const matchArray = findMatches(this.value, parc);
-    const html = matchArray.map(place => {
+    const html = matchArray.map((place, index) => {
         const regex = new RegExp(this.value, 'gi');
         const cityName = place.ville.replace(regex, `<span class="hl">${this.value}</span>`);
         const parcName = place.raisonsociale.replace(regex, `<span class="hl">${this.value}</span>`);
         return `
-        <li>
-         <span class="name" onclick=${this.onListclick}>${cityName}, ${parcName}</span>
-         <span class="zipcode">${place.codepostal}</span>
-        </li>`;
+            <li id="item" key=${index}>
+                <span class="name">${cityName}, ${parcName}</span>
+                <span class="zipcode">${place.codepostal}</span>
+            </li>`;
     }).join('');
     suggestions.innerHTML = html;
+
+    const item = document.getElementById("item");
+    console.log(item);
+    item.addEventListener('click', onListItemClick);
+
 }
+
+function onListItemClick() {
+    console.log("click");
+}
+
 const searchInput = document.querySelector('.search');
 const suggestions = document.querySelector('.suggestions');
+
 searchInput.addEventListener('change', displayMatches);
 searchInput.addEventListener('keyup', displayMatches);
 
